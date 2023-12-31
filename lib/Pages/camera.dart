@@ -10,3 +10,4 @@ class camera extends StatelessWidget {
     );
   }
 }
+

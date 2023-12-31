@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../models/ad.model.dart';
+import '../widgets/section_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,117 +17,132 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context) {
+  List items=[1,2,3,4,5] ;
 
-    var carouselControlerEx;
-   // var items=[1,2,3,4,5];
-    return Scaffold(
-      body:
-      Column(
-        children: [
+  var sliderIndex = 0;
+  CarouselController carouselControllerEx = CarouselController();
 
-          CarouselSlider(
-      carouselController: carouselControlerEx,
-            options: CarouselOptions(height: 400.0),
-            items: [1,2,3,4,5].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                          color: Colors.amber
+  List<Ad> adsList = [];
+  void getAds() async {
+    var adsData = await rootBundle.loadString('assets/data/sample.json');
+    var dataDecoded =
+    List<Map<String, dynamic>>.from(jsonDecode(adsData)['ads']);
+
+    adsList = dataDecoded.map((e) => Ad.fromJson(e)).toList();
+    setState(() {});
+  }
+  void initState() {
+    getAds();
+    super.initState();
+  }
+
+
+    @override
+    Widget build(BuildContext context) {
+
+      return Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding:
+            EdgeInsets.all(20),
+            child: Icon(Icons.menu),
+          ),
+          actions:  [
+            Padding(
+              padding: EdgeInsets.all(20),
+             child:  Icon(Icons.notifications),
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: adsList.isEmpty
+              ? const CircularProgressIndicator()
+              : Column(
+            children: [
+              CarouselSlider(
+                carouselController: carouselControllerEx,
+                options: CarouselOptions(
+                    autoPlay: true,
+                    height: 200,
+                    viewportFraction: .75,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    enlargeCenterPage: true,
+                    onPageChanged: (index, _) {
+                      sliderIndex = index;
+                      setState(() {});
+                    },
+                    enlargeFactor: .3),
+                items: adsList.map((ad) {
+                  return Stack(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: NetworkImage(ad.image!))),
                       ),
-                      child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                         width: MediaQuery.of(context).size.width,
+                     margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                              color: Colors.black38,
+                              image: DecorationImage(
+                         fit: BoxFit.fitWidth,
+                       image:NetworkImage("    ")
+                       ),
+    ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              decoration:BoxDecoration(
+                          color: Colors.black38,
+                        borderRadius: BorderRadius.circular(25)) ,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  ad.title.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 16.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   );
+                }).toList(),
+              ),
+              DotsIndicator(
+                dotsCount: adsList.length,
+                position: sliderIndex,
+                onTap: (position) async {
+                  await carouselControllerEx.animateToPage(position);
+                  sliderIndex = position;
+                  setState(() {});
                 },
-              );
-            }).toList(),
+                decorator: DotsDecorator(
+                  size: const Size.square(9.0),
+                  activeSize: const Size(18.0, 9.0),
+                  activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                ),
+              ),
+              SectionHeader(sectionName: 'Today\'s Fresh Recipes'),
+              SectionHeader(sectionName: 'New Ingredients'),
+            ],
           ),
-    DotsIndicator(
-    dotsCount: items=[1,2,3,4,5].length,
-    position: items.Index,
-    onTap: (position)async{
-      await carouselControlerEx.animateToPage(position);
-      items.Index=position;
-      setState((){});
-    },
-    decorator: DotsDecorator(
-    shape: const Border(),
-    size: Size.square(9.0),
-    activeColor: Colors.green,
-    activeSize: Size(18.0,9.0),
-    activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-    ),
-    ),
-          BottomNavigationBarExample(),
-        ],
-      ),
-    );
-  }
-}
-class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({super.key});
-
-  @override
-  State<BottomNavigationBarExample> createState() =>
-      _BottomNavigationBarExampleState();
-}
-
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: calls',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: camera',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+        ),
+      );
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'School',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
+
+
+
+
+
