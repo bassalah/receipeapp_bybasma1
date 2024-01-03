@@ -1,5 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/homePage.dart';
 import 'Services/PrefrenceService.dart';
@@ -36,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Image.asset('images/background.png').color,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -90,9 +93,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      if (fromKey.currentState?.validate() ?? false) {
+                      if (!(fromKey.currentState?.validate() ?? false)) {
                         await PrefrencesService.prefs?.setBool('isLogin', true);
-
+                           GetIt.I.get<SharedPreferences>()
+                        .setBool("islogin", true);
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (_) => HomePage()));
                       }

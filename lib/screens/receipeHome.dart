@@ -17,12 +17,12 @@ class recepeHome extends StatelessWidget {
            Row(
              children: [
                TextFormField(
-                 keyboardType: TextInputType.emailAddress,
+                 keyboardType: TextInputType.search,
 
                  decoration: const InputDecoration(
                 hintText: ('search'),
                  )),
-               IconButton(onPressed: (){}, icon: Icon(Icons.email)),
+               IconButton(onPressed: (){}, icon: Icon(Icons.search)),
 
              ],),
                SizedBox(height: 10,),

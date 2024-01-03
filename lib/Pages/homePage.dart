@@ -6,6 +6,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/ad.model.dart';
+import '../utiles/colors.dart';
+import '../utiles/numbers.dart';
 import '../widgets/section_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,10 +18,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var sliderIndex = 0;
   @override
   List items=[1,2,3,4,5] ;
 
-  var sliderIndex = 0;
+
   CarouselController carouselControllerEx = CarouselController();
 
   List<Ad> adsList = [];
@@ -43,15 +46,17 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         appBar: AppBar(
           leading: Padding(
-            padding:
-            EdgeInsets.all(20),
-            child: Icon(Icons.menu),
-          ),
-          actions:  [
-            Padding(
-              padding: EdgeInsets.all(20),
-             child:  Icon(Icons.notifications),
-            )
+        padding:
+             EdgeInsets.symmetric(horizontal: Numbers.appHorizontalPadding),
+              child: Icon(Icons.menu),
+      ),
+      actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+            horizontal: Numbers.appHorizontalPadding),
+               child: Icon(Icons.notifications),
+      ),
+
           ],
         ),
         body: SafeArea(
@@ -86,29 +91,15 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                         width: MediaQuery.of(context).size.width,
-                     margin: EdgeInsets.symmetric(horizontal: 5.0),
                           decoration: BoxDecoration(
                               color: Colors.black38,
-                              image: DecorationImage(
-                         fit: BoxFit.fitWidth,
-                       image:NetworkImage("    ")
-                       ),
-    ),
+                              borderRadius: BorderRadius.circular(25)),
                           child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Container(
-                              decoration:BoxDecoration(
-                          color: Colors.black38,
-                        borderRadius: BorderRadius.circular(25)) ,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  ad.title.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 16.0, color: Colors.white),
-                                ),
-                              ),
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              ad.title.toString(),
+                              style: const TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
                             ),
                           ),
                         ),
@@ -116,13 +107,13 @@ class _HomePageState extends State<HomePage> {
                     ],
                   );
                 }).toList(),
-              ),
+      ),
               DotsIndicator(
                 dotsCount: adsList.length,
-                position: sliderIndex,
+               // position:sliderIndex,
                 onTap: (position) async {
-                  await carouselControllerEx.animateToPage(position);
-                  sliderIndex = position;
+                  await carouselControllerEx.animateToPage(position as int);
+                  sliderIndex = position as int;
                   setState(() {});
                 },
                 decorator: DotsDecorator(
@@ -133,16 +124,153 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SectionHeader(sectionName: 'Today\'s Fresh Recipes'),
+              Card(
+                elevation: 2,
+                child: Container(
+                    width: 240,
+                    decoration: BoxDecoration(
+                        color: Color(
+                          ColorsConst.containerBackgroundColor,
+                        ),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 15, bottom: 15, left: 15),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.favorite_outline,
+                                color: Colors.grey,
+                              ),
+                              Transform.translate(
+                                offset: Offset(20, 0),
+                                child: Image.asset(
+                                  'images/1.jpeg',
+                                  height: 140,
+                                  width: 200,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Breakfast',
+                                    style: TextStyle(
+                                        color: Color(0xff1F95B3),
+                                        fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Fresh Toast With Barries',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Color(ColorsConst.mainColor),
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Color(ColorsConst.mainColor),
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Color(ColorsConst.mainColor),
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Color(ColorsConst.mainColor),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '120 Calories',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color:
+                                          Color(ColorsConst.mainColor),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 18,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    '10 mins',
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 18,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    '1 serving',
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+              ),
               SectionHeader(sectionName: 'New Ingredients'),
             ],
           ),
         ),
       );
     }
-  }
-
-
-
-
-
-
+}

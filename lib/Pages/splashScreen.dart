@@ -34,8 +34,14 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Image.asset('images/background.png').color,
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          children: [
+            CircularProgressIndicator(),
+            ElevatedButton(onPressed: (){}, child: Text("register"))
+          ],
+        ),
       ),
     );
   }
