@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utiles/colors.dart';
+
 class SectionHeader extends StatelessWidget {
   final String sectionName;
   const SectionHeader({required this.sectionName, super.key});
@@ -8,7 +10,7 @@ class SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-      EdgeInsets.symmetric(horizontal: Numbers.appHorizontalPadding),
+     EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

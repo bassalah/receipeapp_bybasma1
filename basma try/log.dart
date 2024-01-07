@@ -23,17 +23,6 @@ class _loginState extends State<login> {
   }
   @override
 
-  void initSplash()async{
-    await Future.delayed(Duration(microseconds: 200));
-    if(PreferencesServices.checkUser()){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: ()=>HomePage()));
-    }else{
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: ()=>HomePage()));
-    }
-
-  }
-
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +43,7 @@ class _loginState extends State<login> {
                     hintText: "enter your email",
                     labelText: "Email",
                     prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(),
-    validator:(value){
-    if(value==null||value.isEmpty){
-    return "email required";
-
-    ),),
+                    border: OutlineInputBorder(),),),
 
                 SizedBox(height: 20),
                 TextFormField(
@@ -73,15 +57,8 @@ class _loginState extends State<login> {
                     prefixIcon: Icon(Icons.password),
                     suffixIcon: Icon(Icons.remove_red_eye),
                     border: OutlineInputBorder(),
-                    validator:(value){
-                      if(value==null||value.isEmpty){
-                        return "password required";
 
-                    }
-                    if(value.length<6){
-                      return "password too short";
-                    }
-                    }
+
                   ),
                 ),
                 SizedBox(height: 20),
@@ -98,12 +75,11 @@ class _loginState extends State<login> {
                   Text("dont have account"),
                   TextButton(onPressed: (){}, child: Text("register now"))
 
-                ],)
+                ],),
 
-              ]),
-        )
+           ])
                 )
-
+        )
     );
   }
 }

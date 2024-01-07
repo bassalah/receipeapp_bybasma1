@@ -17,9 +17,7 @@ class recepeHome extends StatelessWidget {
            Row(
              children: [
                TextFormField(
-                 keyboardType: TextInputType.search,
-
-                 decoration: const InputDecoration(
+                   decoration: const InputDecoration(
                 hintText: ('search'),
                  )),
                IconButton(onPressed: (){}, icon: Icon(Icons.search)),
