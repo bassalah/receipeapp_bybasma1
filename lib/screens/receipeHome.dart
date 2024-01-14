@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:receipeapp_bybasma/widgets/CounterProvider.dart';
 
 class recepeHome extends StatelessWidget {
   const recepeHome({super.key});
@@ -6,6 +8,9 @@ class recepeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Provider.of<CounterProvider>(context,listen: false).increment();
+      },),
       body:
       Padding(
         padding: const EdgeInsets.all(30.0),
