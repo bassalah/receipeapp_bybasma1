@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:receipeapp_bybasma/screens/registerScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/homePage.dart';
@@ -101,7 +102,34 @@ class _LoginPageState extends State<LoginPage> {
                             MaterialPageRoute(builder: (_) => HomePage()));
                       }
                     },
-                    child: const Text('Login'))
+                    child: const Text('Login')),
+
+              if (MediaQuery.of(context).viewInsets.bottom == 0)
+        Positioned.fill(
+        bottom: 10,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterPage()));
+                  },
+                  child: const Text(
+                    'Not Have Account , Register Now ?',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ))
               ],
             ),
           ),

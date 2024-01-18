@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130186731265",
+    "project_id": "receipe-80222",
+    "storage_bucket": "receipe-80222.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130186731265:android:c4176d055b819f5fc98500",
+        "android_client_info": {
+          "package_name": "com.example.receipeapp_bybasma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTViVm13LcZ-XzI3WT7LP9RKCPsxbjvTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:receipeapp_bybasma/counter_cubit.dart';
 
 import '../utiles/colors.dart';
@@ -77,43 +77,10 @@ class _PageViewPageState extends State<PageViewPage> {
                       child: Text('third page')),
                 ],
               ),
-            Expanded(
-              child: PageView(
-                scrollDirection: Axis.vertical,
-                // physics: const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                children: [
-                  BlocConsumer<CounterCubit, CounterState>(
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            Text(state.counterValue.toString()),
-                            ElevatedButton(
-                                onPressed: () =>
-                                    BlocProvider.of<CounterCubit>(context)
-                                        .increment(),
-                                child: Text('+')),
-                            ElevatedButton(
-                                onPressed: () =>
-                                    BlocProvider.of<CounterCubit>(context)
-                                        .decrement(),
-                                child: Text('-'))
-                          ],
-                        );
-                      },
-                      listener: (_, __) {}),
-                  Container(
-                    color: Colors.green,
-                  ),
-                  Container(
-                    color: Colors.yellow,
-                  )
-                ],
-              ),
+
+             ] ),
             ),
-          ],
-        ),
-      ),
+
     );
   }
 }
